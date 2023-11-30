@@ -1,0 +1,222 @@
+1
+npm i react-router-dom
+ибо остальные версии старые
+
+2
+Для начала провайдер в index
+
+import { BrowserRouter } from 'react-router-dom';
+<BrowserRouter>
+  <App />
+</BrowserRouter>
+
+3
+Роутинг в App
+import {Routes,Route,Link} from 'react-router-dom'
+
+<div className="App"> 
+<Routes>
+  <Route path = '/' element = {<HomePage/>}/>
+  <Route path="/login" element={<LoginPage/>}/>
+  <Route path="*" element={<NotFoundPage/>}/>
+</Routes>
+</div>
+
+4
+Ссылки
+import {Link} from 'react-router-dom'
+
+<Link to='/login'></Link>
+
+5
+кастомизация NavLink (активна ссылка или нет)
+
+Вариант 1
+Просто меняем <Link/> на <NavLink/> и когда он будет активен на него вешается класс .active
+
+Вариант 2 
+Если класс .active не устраивает и хотим другой (.active-link напрмиер)
+Можно из функции узнать активен или нет
+className={({isActive}) => isActive ? 'active-link' : ''} в отдельную фу-ю можно вынести
+
+Вариант 3
+Кастомный Link (можно обернуть)
+
+import { Link,useMatch } from 'react-router-dom';
+
+function CustomLink({children, to, ...props}) {
+  const match = useMatch(to)                            - Проверяет совпадает ли текущая ссылка с этой, Если да то возвращает будет содержать информацию о маршруте и применяет стили (https://www.youtube.com/watch?v=qXAVnsPCOt4&list=PLiZoB8JBsdznY1XwBcBhHL9L7S_shPGVE&index=3)
+  console.log({match})
+return (
+<Link to={to} {...props} style={{color: match ? 'red' : ''}}>
+  {children}
+</Link>
+)
+}
+
+export default CustomLink;
+
+6
+Параметры в ссылках useParams
+
+<Route path="/posts" element={<PostsPage/>}/>
+<Route path="/posts/:id" element={<SinglePostPage/>}/>
+<Route path="/posts/:id/edit" element={<PrimerPage/>}/>
+
+<Route path="/posts/:id/:category" element={<PrimerPage/>}/>
+
+
+как получать:
+const {id,category} = useParams() (react router dom)
+
+<Link to="/posts/${id}/edit">edit this post</Link>
+
+7
+Работа с историей, локацией и приватными роутами
+
+const navigate = useNavigate() (react router dom)
+
+const goBack = () => navigate(-1) - на 1 назад
+
+const goHome = () => navigate( '/', { replace:true, state:{можно передать данные} } )                           - использовать только в коде (а не в разметке)
+                                        ^
+                                        чтобы не отображалось в истории
+8
+Редирект
+import {Navigate} from  react-router-dom
+
+<Route path="/posts" element={<PostsPage/>}/>
+<Route path="/home" element={<HomePage/>}/>
+<Route path="/about" element={<AboutPage/>}/>
+
+<Route path="/about-us" element={<Navigate to="/about" replace/>}/>    - например если ссылка поменялась
+
+
+9
+Локация
+const location = useLocation() (react router dom)
+
+Можно получить:
+- уникальный ключ страницы
+- полный путь страницы pathname          - в основоном 
+- get Параметры
+- state
+
+10
+Приватные роуты hoc
+
+https://github.com/SsanchesS/react_hints/tree/main/private_routers
+
+Здание:
+1 контекст провайдер (значения: user,login,log out)
+2 обертка, чтобы знать откуда мы пришли (обернуть в приватный роутер)
+3 кастомный хук чтобы вытащить данные из контекста 
+4 на странице Login получить откуда пришли, переправить обратно без истории + использовать form
+
+11
+Параметры поиска
+useParams
+
+
+12
+Общая обертка (как выносить шаблон сайта (шапка,футер,сайдбар) в отдельный компонент)
+
+import { Link, Outlet } from 'react-router-dom';
+const Layout=()=>{
+ return (
+   <>
+   <header>
+      <Link to="/">Home</Link>
+      <Link to="/posts">Blog</Link> 
+      <Link to="/about">About</Link> 
+   </header>
+
+   <Outlet />                            - куда позже вставится контент можно обернуть в div
+
+   <footer>2021</footer>
+   </>
+ )
+}
+export {Layout}
+
+//////////////////////////////////
+
+import { Layout } from './components/Layout'
+
+function App() {
+return (
+<>
+    <Routes>
+        <Route path="/" element={<Layout />}>           - относительно этого слэша
+            <Route index element={<Homepage />} /> 
+            <Route path="about" element={<About />} /> 
+            <Route path="posts" element={<Blogpage />} /> 
+            <Route path="*" element={<Notfoundpage />} /> 
+        </Route>
+    </Routes>
+</>
+)
+}
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+Для БУДУЩЕГО
+
+
+
+
+
+
+13
+Вложенный роутинг
+
+// Компонент для вложенного роутинга
+const Dashboard = () => {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="profile" element={<Profile />} />
+      </Routes>
+    </div>
+  );
+};
+<Routes>
+     <Route path="/" element={<Home />} />
+     {/* Вложенный роутинг */}
+     <Route path="/dashboard/*" element={<Dashboard />} />          - после /dashboard/ может следовать любой подпуть
+</Routes>
+
+14
+Предзагрузка данных
+
+https://www.youtube.com/watch?v=Nw8kCK0_T3U&list=PLiZoB8JBsdznY1XwBcBhHL9L7S_shPGVE&index=23
+
+15
+ErrorElement для обработки ошибок
+
+https://www.youtube.com/watch?v=moQfXDTuyC8&list=PLiZoB8JBsdznY1XwBcBhHL9L7S_shPGVE&index=10
+
+16
+Отправка данных через роутинг
+
+https://www.youtube.com/watch?v=YOuEicRlUN8&list=PLiZoB8JBsdznY1XwBcBhHL9L7S_shPGVE&index=10
+
+*
+Higher-Order Components (HOC) 
+
+
+
+
