@@ -117,6 +117,9 @@ https://github.com/SsanchesS/react_hints/tree/main/private_routers
 Параметры поиска
 useParams
 
+<Route path='/post/:category/:id' element={<RequiredAuth><Post/></RequiredAuth>}/>
+
+const {category,id} = useParams()
 
 12
 Общая обертка (как выносить шаблон сайта (шапка,футер,сайдбар) в отдельный компонент)
