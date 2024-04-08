@@ -18,7 +18,7 @@ const initialState:IUserState = {
 // асинхронный reducer
 export const usersFetching = createAsyncThunk( // отдает редюсер и внутри него экшены pending,fulfilled,rejected
     "users/usersFetch", // имя / имя редюсера
-    async function(_,{rejectWithValue}){ 
+    async function(_,{rejectWithValue}){ // thunkAPI.rejectWithValue
         try {
             // const response = await axios.get<IUser[]>("https://jsonplaceholder.typicode.com/users")
 
@@ -65,18 +65,18 @@ export default ClientSlice.reducer
 // export const usersFetching = createAsyncThunk( // отдает этот reducer (создание с помощью createReducer)
 //     "users/usersFetch", // имя / имя reducer
 //     async function(_,{rejectWithValue}){ 
-//         // функцию без названия. Аргументы: 
+            // функцию без названия. Аргументы: 
 
-//         // 1 что-то от меня при вызове если ничего - то _, 
+            // 1 что-то от меня при вызове если ничего - то _, 
 
-//         // 2 параметр хз ( не обяз. ), 
+            // 2 параметр хз ( не обяз. ), 
 
-//         // 3 параметр - опции Здесь могу много че достать, например dispatch, rejectWithValue - передать с case ошибки,
-//         // getState - так же как с useSelector(но через методы), const users = getState().CashReducer.users - типо изменяем данные для сервера, а dispatch уже для клиента - не проверял
-//         // Пример с dispatch - допустим На сервере какие-то данные уже удалились, и чтобы не получать их снова, можно просто удалить их на клиенте
-//         // https://www.youtube.com/watch?v=6RTbC8Acj1M - 25:42
+            // 3 параметр - опции Здесь могу много че достать, например dispatch, rejectWithValue - передать с case ошибки,
+            // getState - так же как с useSelector(но через методы), const users = getState().CashReducer.users - типо изменяем данные для сервера, а dispatch уже для клиента - не проверял
+            // Пример с dispatch - допустим На сервере какие-то данные уже удалились, и чтобы не получать их снова, можно просто удалить их на клиенте
+            // https://www.youtube.com/watch?v=6RTbC8Acj1M - 25:42
 
-//         // https://www.youtube.com/watch?v=6RTbC8Acj1M - 27:40 - Ошибки, нужно обрабатывать для каждого асинхронного отдельно. Можно логику вынести в отдельную фу-ю.
+            // https://www.youtube.com/watch?v=6RTbC8Acj1M - 27:40 - Ошибки, нужно обрабатывать для каждого асинхронного отдельно. Можно логику вынести в отдельную фу-ю.
 
 //         try {
 //             // const response = await axios.get<IUser[]>("https://jsonplaceholder.typicode.com/users")
