@@ -4,20 +4,12 @@ import {configureStore,combineReducers} from "@reduxjs/toolkit"  // создат
 import ClientSlice from "./reducers/ClientSlice" // - уже с reducer
 import { api } from "./api/api"
 
-// const rootReducer = combineReducers({
-//     CashSlice,
-//     ClientSlice
-// })
-// export const store = configureStore({
-//     reducer:rootReducer,
-// })
-
 export const store = configureStore({
     reducer:{
         ClientReducer : ClientSlice,
         [api.reducerPath] : api.reducer // Добавили
     },
-    middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(api.middleware)
+    middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(api.middleware) // внедрить RTK query
 })
 
 export type TypeState = ReturnType<typeof store.getState>
