@@ -15,7 +15,7 @@ const initialState:IUserState = {
 
 // Новая версия Redux Toolkit 2.0 :
 
-// асинхронный reducer
+// асинхронный reducer                   <IUser,null> - тоже что отдает/принимает
 export const usersFetching = createAsyncThunk( // отдает редюсер и внутри него экшены pending,fulfilled,rejected
     "users/usersFetch", // имя / имя редюсера
     async function(_,{rejectWithValue}){ // thunkAPI.rejectWithValue
