@@ -1,0 +1,16 @@
+Не сохраняет пробелы.
+Игнорирует явные разрывы строки (не переносит текст).
+текст может вылезти из контейнера
+
+white-space: nowrap;
+
+центрирование:
+display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
